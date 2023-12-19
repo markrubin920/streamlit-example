@@ -13,7 +13,7 @@ forums](https://discuss.streamlit.io).
 In the meantime, below is an example of what you can do with just a few lines of code:
 """
 
-num_points = st.slider("Number of points in spiral", 1, 10000, 1100)
+num_points = st.slider("Number of points in spiral", 1, 50000, 1100)
 num_turns = st.slider("Number of turns in spiral", 1, 300, 31)
 
 indices = np.linspace(0, 1, num_points)
@@ -24,7 +24,7 @@ x = radius * np.cos(theta)
 y = radius * np.sin(theta)
 
 df = pd.DataFrame({
-    "x": x,
+    "x": y,
     "y": y,
     "idx": indices,
     "rand": np.random.randn(num_points),
