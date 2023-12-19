@@ -13,15 +13,13 @@ import streamlit as st
 # In the meantime, below is an example of what you can do with just a few lines of code:
 # """
 
-csv_file_path = '../archive/repository_data.csv'
+csv_file_path = '../repository_data.csv'
 
 # Use the `read_csv` function to read the CSV file into a DataFrame
 df = pd.read_csv(csv_file_path)
 
 
-st.dataframe(
-    df
-)
+st.dataframe(df)
 
 # num_points = st.slider("Number of points in spiral", 1, 50000, 1100)
 # num_turns = st.slider("Number of turns in spiral", 1, 300, 31)
