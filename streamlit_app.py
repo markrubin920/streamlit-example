@@ -41,7 +41,7 @@ col1, col2 = st.columns(2)
 # First column about less popular languages' repositories being used by other more for community help
 with col1:
     # Title
-    st.markdown("<h2><center>Less Popular, More for Help</center></h2>", unsafe_allow_html=True)
+    st.markdown("<h2><center>Less Popular, More Use for Help</center></h2>", unsafe_allow_html=True)
     # Top left chart layout
     st.bar_chart(data=top_10_languages, x='Language', y='Stars Count', color="#FFA500", width=0, height=0, use_container_width=True)
     # Caption
@@ -52,7 +52,7 @@ with col1:
 # Second column about more popular languages' repositories being used by others more for others for inspitation
 with col2:
     # Title
-    st.markdown("<h2><center>More Popular, More for Inspiration</center></h2>", unsafe_allow_html=True)
+    st.markdown("<h2><center>More Popular, More Use for Inspiration</center></h2>", unsafe_allow_html=True)
     # Top right chart layout
     st.vega_lite_chart(
         result,
