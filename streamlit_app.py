@@ -12,6 +12,14 @@ csv_file_path = 'github_dataset2.csv'
 df = pd.read_csv(csv_file_path)
 df = df.drop(df[df['language'] == ""].index)
 
+df2 = pd.read_csv('github_dataset4.csv')
+
+chart = alt.Chart(df2).mark_circle().encode(
+    x='forks_count',
+    y='pull_requests',
+    color='Frequency Category',
+).interactive()
+
 average_watchers_by_language = df.groupby('language')['stars_count'].mean()
 
 # Reset the index to make 'primary_language' a column again
@@ -19,6 +27,15 @@ average_watchers_by_language = average_watchers_by_language.reset_index()
 
 # Sort the DataFrame by the average watchers in descending order
 top_5_languages = average_watchers_by_language.sort_values(by='stars_count', ascending=False).head(10)
+
+# forks_by_language = df.groupby('language').agg({'Language Frequency': 'mean', 'forks_count': 'mean'}).reset_index()
+
+# Reset the index to make 'primary_language' a column again
+# forks_by_language = forks_by_language.reset_index()
+
+# Sort the DataFrame by the average watchers in descending order
+# top_5forks_languages = forks_by_language.sort_values(by='forks_count', ascending=False).head(7)
+
 
 stars_by_freq = df.groupby('Language Frequency')['stars_count'].mean()
 stars_by_freq = stars_by_freq.reset_index()
@@ -58,15 +75,20 @@ with col2:
             },
         }
     )
-    st.markdown("<p><center>Repositories of more frequently used programming language have more contributors and pull requests, indicating high engagement with the repository</center></p>", unsafe_allow_html=True)
+    st.markdown("<p><center>Repositories of more frequently used programming language have more forks, contributors and pull requests, indicating high engagement with the repository</center></p>", unsafe_allow_html=True)
+    st.altair_chart(chart, theme="streamlit", use_container_width=True)
+    # st.scatter_chart(data=df, x='Language Frequency', y='forks_count', color=None, width=0, height=0, use_container_width=False)
     # st.scatter_chart(data=df, x='stars_count', y='pull_requests', color=None, size=None, width=0, height=0, use_container_width=True)
 
 
 
 # Use the `read_csv` function to read the CSV file into a DataFrame
-
-
+st.markdown("<p><center>Data Used for Tables</center></p>", unsafe_allow_html=True)
 st.dataframe(df)
+
+st.markdown("<p>Data source:</p>", unsafe_allow_html=True)
+st.markdown("<a>https://www.kaggle.com/datasets/nikhil25803/github-dataset/data</a>", unsafe_allow_html=True)
+
 
 
 
