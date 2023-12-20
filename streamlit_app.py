@@ -3,19 +3,12 @@ import numpy as np
 import pandas as pd
 import streamlit as st
 
-# """
-# # Welcome to Streamlit!
-
-# Edit `/streamlit_app.py` to customize this app to your heart's desire :heart:.
-# If you have any questions, checkout our [documentation](https://docs.streamlit.io) and [community
-# forums](https://discuss.streamlit.io).
-
-# In the meantime, below is an example of what you can do with just a few lines of code:
+st.markdown("<h1><center> Niche Coding Communities Call GitHub for Help</center></h1>", unsafe_allow_html=True)
+st.markdown("<h5><center>More Popular Languages Use it for Fun and Creativity</center></h5>", unsafe_allow_html=True)
 # """
 
-csv_file_path = 'github_dataset.csv'
+csv_file_path = 'github_dataset2.csv'
 
-# Use the `read_csv` function to read the CSV file into a DataFrame
 df = pd.read_csv(csv_file_path)
 df = df.drop(df[df['language'] == ""].index)
 
@@ -27,12 +20,56 @@ average_watchers_by_language = average_watchers_by_language.reset_index()
 # Sort the DataFrame by the average watchers in descending order
 top_5_languages = average_watchers_by_language.sort_values(by='stars_count', ascending=False).head(10)
 
+stars_by_freq = df.groupby('Language Frequency')['stars_count'].mean()
+stars_by_freq = stars_by_freq.reset_index()
+
+# engagement_by_freq = df.groupby('Language Frequency')['pull_requests'].mean()['stars_count']
+
+# engagement_by_freq = engagement_by_freq.reset_index()
+
+
+result = df.groupby('Language Frequency').agg({'contributors': 'mean', 'pull_requests': 'mean', 'forks_count': 'mean'}).reset_index()
+# st.dataframe(result)
+
+# Create two columns
+col1, col2 = st.columns(2)
+
+# Place graphs or elements in each column
+with col1:
+    st.markdown("<h2><center>Less Popular, More Useful</center></h2>", unsafe_allow_html=True)
+    st.bar_chart(data=top_5_languages, x='language', y='stars_count', color=None, width=0, height=0, use_container_width=False)
+    # Add your first graph here
+    st.markdown("<p><center>Less frequently used languages like Assembly, Vim Script and Vue receive most repository stars -- a proxy for repository usefulness</center></p>", unsafe_allow_html=True)
+    st.bar_chart(data=stars_by_freq, x='Language Frequency', y='stars_count', color=None, width=0, height=0, use_container_width=False)
+
+
+with col2:
+    st.markdown("<h2><center>More Popular, More Community Action</center></h2>", unsafe_allow_html=True)
+    # Add your second graph here
+    st.vega_lite_chart(
+        result,
+        {
+            "mark": {"type": "circle", "tooltip": True},
+            "encoding": {
+                "x": {"field": "Language Frequency", "type": "quantitative"},
+                "y": {"field": "contributors", "type": "quantitative"},
+                # "size": {"field": "forks_count", "type": "quantitative"},
+                "color": {"field": "pull_requests", "type": "quantitative"},
+            },
+        }
+    )
+    st.markdown("<p><center>Repositories of more frequently used programming language have more contributors and pull requests, indicating high engagement with the repository</center></p>", unsafe_allow_html=True)
+    # st.scatter_chart(data=df, x='stars_count', y='pull_requests', color=None, size=None, width=0, height=0, use_container_width=True)
+
+
+
+# Use the `read_csv` function to read the CSV file into a DataFrame
+
 
 st.dataframe(df)
 
-st.bar_chart(data=top_5_languages, x='language', y='stars_count', color=None, width=0, height=0, use_container_width=False)
 
-st.scatter_chart(data=df, x='stars_count', y='pull_requests', color=None, size=None, width=0, height=0, use_container_width=True)
+
 
 # st.vega_lite_chart(
 #    df,
